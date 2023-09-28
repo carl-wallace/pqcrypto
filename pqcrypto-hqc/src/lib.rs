@@ -20,29 +20,36 @@ extern crate alloc;
 #[cfg(feature = "std")]
 extern crate std;
 
+
 pub mod ffi;
 pub mod hqcrmrs128;
 pub mod hqcrmrs192;
 pub mod hqcrmrs256;
 
 pub use crate::hqcrmrs128::{
-    ciphertext_bytes as hqcrmrs128_ciphertext_bytes, decapsulate as hqcrmrs128_decapsulate,
-    encapsulate as hqcrmrs128_encapsulate, keypair as hqcrmrs128_keypair,
+    keypair as hqcrmrs128_keypair,
     public_key_bytes as hqcrmrs128_public_key_bytes,
     secret_key_bytes as hqcrmrs128_secret_key_bytes,
+    encapsulate as hqcrmrs128_encapsulate,
+    decapsulate as hqcrmrs128_decapsulate,
+    ciphertext_bytes as hqcrmrs128_ciphertext_bytes,
     shared_secret_bytes as hqcrmrs128_shared_secret_bytes,
 };
 pub use crate::hqcrmrs192::{
-    ciphertext_bytes as hqcrmrs192_ciphertext_bytes, decapsulate as hqcrmrs192_decapsulate,
-    encapsulate as hqcrmrs192_encapsulate, keypair as hqcrmrs192_keypair,
+    keypair as hqcrmrs192_keypair,
     public_key_bytes as hqcrmrs192_public_key_bytes,
     secret_key_bytes as hqcrmrs192_secret_key_bytes,
+    encapsulate as hqcrmrs192_encapsulate,
+    decapsulate as hqcrmrs192_decapsulate,
+    ciphertext_bytes as hqcrmrs192_ciphertext_bytes,
     shared_secret_bytes as hqcrmrs192_shared_secret_bytes,
 };
 pub use crate::hqcrmrs256::{
-    ciphertext_bytes as hqcrmrs256_ciphertext_bytes, decapsulate as hqcrmrs256_decapsulate,
-    encapsulate as hqcrmrs256_encapsulate, keypair as hqcrmrs256_keypair,
+    keypair as hqcrmrs256_keypair,
     public_key_bytes as hqcrmrs256_public_key_bytes,
     secret_key_bytes as hqcrmrs256_secret_key_bytes,
+    encapsulate as hqcrmrs256_encapsulate,
+    decapsulate as hqcrmrs256_decapsulate,
+    ciphertext_bytes as hqcrmrs256_ciphertext_bytes,
     shared_secret_bytes as hqcrmrs256_shared_secret_bytes,
 };

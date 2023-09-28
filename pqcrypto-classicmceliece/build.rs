@@ -4,18 +4,20 @@ extern crate glob;
 use std::env;
 use std::path::{Path, PathBuf};
 
+
 macro_rules! build_vec {
     ($variant:expr) => {
         let internals_include_path = &std::env::var("DEP_PQCRYPTO_INTERNALS_INCLUDEPATH").unwrap();
         let common_dir = Path::new("pqclean/common");
 
         let mut builder = cc::Build::new();
-        let target_dir: PathBuf = ["pqclean", "crypto_kem", $variant, "vec"].iter().collect();
+        let target_dir: PathBuf = ["pqclean", "crypto_kem", $variant, "vec"]
+            .iter()
+            .collect();
 
         let target_os = env::var("CARGO_CFG_TARGET_OS").unwrap();
         if target_os == "wasi" {
-            let wasi_sdk_path =
-                &std::env::var("WASI_SDK_DIR").expect("missing environment variable: WASI_SDK_DIR");
+            let wasi_sdk_path = &std::env::var("WASI_SDK_DIR").expect("missing environment variable: WASI_SDK_DIR");
             builder.flag(format!("--sysroot={}", wasi_sdk_path).as_str());
         }
 
@@ -46,8 +48,7 @@ macro_rules! build_clean {
 
         let target_os = env::var("CARGO_CFG_TARGET_OS").unwrap();
         if target_os == "wasi" {
-            let wasi_sdk_path =
-                &std::env::var("WASI_SDK_DIR").expect("missing environment variable: WASI_SDK_DIR");
+            let wasi_sdk_path = &std::env::var("WASI_SDK_DIR").expect("missing environment variable: WASI_SDK_DIR");
             builder.flag(format!("--sysroot={}", wasi_sdk_path).as_str());
         }
 
@@ -72,12 +73,13 @@ macro_rules! build_avx {
         let common_dir = Path::new("pqclean/common");
 
         let mut builder = cc::Build::new();
-        let target_dir: PathBuf = ["pqclean", "crypto_kem", $variant, "avx"].iter().collect();
+        let target_dir: PathBuf = ["pqclean", "crypto_kem", $variant, "avx"]
+            .iter()
+            .collect();
 
         let target_os = env::var("CARGO_CFG_TARGET_OS").unwrap();
         if target_os == "wasi" {
-            let wasi_sdk_path =
-                &std::env::var("WASI_SDK_DIR").expect("missing environment variable: WASI_SDK_DIR");
+            let wasi_sdk_path = &std::env::var("WASI_SDK_DIR").expect("missing environment variable: WASI_SDK_DIR");
             builder.flag(format!("--sysroot={}", wasi_sdk_path).as_str());
         }
 
@@ -107,6 +109,7 @@ macro_rules! build_avx {
         builder.compile(format!("{}_avx", $variant).as_str());
     };
 }
+
 
 fn main() {
     #[allow(unused_variables)]

@@ -4,6 +4,7 @@ extern crate glob;
 use std::env;
 use std::path::{Path, PathBuf};
 
+
 macro_rules! build_clean {
     ($variant:expr) => {
         let internals_include_path = &std::env::var("DEP_PQCRYPTO_INTERNALS_INCLUDEPATH").unwrap();
@@ -16,8 +17,7 @@ macro_rules! build_clean {
 
         let target_os = env::var("CARGO_CFG_TARGET_OS").unwrap();
         if target_os == "wasi" {
-            let wasi_sdk_path =
-                &std::env::var("WASI_SDK_DIR").expect("missing environment variable: WASI_SDK_DIR");
+            let wasi_sdk_path = &std::env::var("WASI_SDK_DIR").expect("missing environment variable: WASI_SDK_DIR");
             builder.flag(format!("--sysroot={}", wasi_sdk_path).as_str());
         }
 
@@ -35,6 +35,7 @@ macro_rules! build_clean {
         builder.compile(format!("{}_clean", $variant).as_str());
     };
 }
+
 
 fn main() {
     #[allow(unused_variables)]
@@ -55,4 +56,5 @@ fn main() {
     build_clean!("hqc-rmrs-128");
     build_clean!("hqc-rmrs-192");
     build_clean!("hqc-rmrs-256");
+
 }

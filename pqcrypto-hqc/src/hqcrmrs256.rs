@@ -18,21 +18,23 @@
 
 // This file is generated.
 
+
 #[cfg(feature = "serialization")]
 use serde::{Deserialize, Serialize};
 #[cfg(feature = "serialization")]
 use serde_big_array::BigArray;
 
 use crate::ffi;
+use pqcrypto_traits::{Result, Error};
 use pqcrypto_traits::kem as primitive;
-use pqcrypto_traits::{Error, Result};
 
 macro_rules! simple_struct {
     ($type: ident, $size: expr) => {
         #[derive(Clone, Copy)]
         #[cfg_attr(feature = "serialization", derive(Serialize, Deserialize))]
         pub struct $type(
-            #[cfg_attr(feature = "serialization", serde(with = "BigArray"))] [u8; $size],
+            #[cfg_attr(feature = "serialization", serde(with = "BigArray"))]
+            [u8; $size]
         );
 
         impl $type {
@@ -56,11 +58,7 @@ macro_rules! simple_struct {
             /// Construct this object from a byte slice
             fn from_bytes(bytes: &[u8]) -> Result<Self> {
                 if bytes.len() != $size {
-                    Err(Error::BadLength {
-                        name: stringify!($type),
-                        actual: bytes.len(),
-                        expected: $size,
-                    })
+                    Err(Error::BadLength { name: stringify!($type), actual: bytes.len(), expected: $size })
                 } else {
                     let mut array = [0u8; $size];
                     array.copy_from_slice(bytes);
@@ -82,20 +80,15 @@ macro_rules! simple_struct {
     };
 }
 
-simple_struct!(
-    PublicKey,
-    ffi::PQCLEAN_HQCRMRS256_CLEAN_CRYPTO_PUBLICKEYBYTES
-);
-simple_struct!(
-    SecretKey,
-    ffi::PQCLEAN_HQCRMRS256_CLEAN_CRYPTO_SECRETKEYBYTES
-);
+
+simple_struct!(PublicKey, ffi::PQCLEAN_HQCRMRS256_CLEAN_CRYPTO_PUBLICKEYBYTES);
+simple_struct!(SecretKey, ffi::PQCLEAN_HQCRMRS256_CLEAN_CRYPTO_SECRETKEYBYTES);
 simple_struct!(
     Ciphertext,
     ffi::PQCLEAN_HQCRMRS256_CLEAN_CRYPTO_CIPHERTEXTBYTES
 );
 simple_struct!(SharedSecret, ffi::PQCLEAN_HQCRMRS256_CLEAN_CRYPTO_BYTES);
-
+ 
 /// Get the number of bytes for a public key
 pub const fn public_key_bytes() -> usize {
     ffi::PQCLEAN_HQCRMRS256_CLEAN_CRYPTO_PUBLICKEYBYTES
@@ -115,17 +108,19 @@ pub const fn ciphertext_bytes() -> usize {
 pub const fn shared_secret_bytes() -> usize {
     ffi::PQCLEAN_HQCRMRS256_CLEAN_CRYPTO_BYTES
 }
-
+ 
 macro_rules! gen_keypair {
-    ($variant:ident) => {{
+    ($variant:ident) => {
+    {
         let mut pk = PublicKey::new();
         let mut sk = SecretKey::new();
         assert_eq!(
-            unsafe { ffi::$variant(pk.0.as_mut_ptr(), sk.0.as_mut_ptr()) },
+            unsafe { ffi::$variant(pk.0.as_mut_ptr(),sk.0.as_mut_ptr()) },
             0
         );
         (pk, sk)
-    }};
+    }
+    };
 }
 
 /// Generate a hqc-rmrs-256 keypair
@@ -133,8 +128,12 @@ pub fn keypair() -> (PublicKey, SecretKey) {
     gen_keypair!(PQCLEAN_HQCRMRS256_CLEAN_crypto_kem_keypair)
 }
 
+
+
+
 macro_rules! encap {
-    ($variant:ident, $pk:ident) => {{
+    ($variant:ident, $pk:ident) => {
+    {
         let mut ss = SharedSecret::new();
         let mut ct = Ciphertext::new();
         assert_eq!(
@@ -142,7 +141,8 @@ macro_rules! encap {
             0,
         );
         (ss, ct)
-    }};
+    }
+    };
 }
 
 /// Encapsulate to a hqc-rmrs-256 public key
@@ -151,20 +151,31 @@ pub fn encapsulate(pk: &PublicKey) -> (SharedSecret, Ciphertext) {
 }
 
 macro_rules! decap {
-    ($variant:ident, $ct:ident, $sk:ident) => {{
+    ($variant:ident, $ct:ident, $sk:ident) => {
+    {
         let mut ss = SharedSecret::new();
         assert_eq!(
-            unsafe { ffi::$variant(ss.0.as_mut_ptr(), $ct.0.as_ptr(), $sk.0.as_ptr(),) },
+            unsafe {
+                ffi::$variant(
+                    ss.0.as_mut_ptr(),
+                    $ct.0.as_ptr(),
+                    $sk.0.as_ptr(),
+                )
+            },
             0
         );
         ss
-    }};
+    }
+    };
 }
 
 /// Decapsulate the received hqc-rmrs-256 ciphertext
 pub fn decapsulate(ct: &Ciphertext, sk: &SecretKey) -> SharedSecret {
     decap!(PQCLEAN_HQCRMRS256_CLEAN_crypto_kem_dec, ct, sk)
 }
+
+
+ 
 
 #[cfg(test)]
 mod test {
@@ -177,4 +188,4 @@ mod test {
         let ss2 = decapsulate(&ct, &sk);
         assert_eq!(&ss1.0[..], &ss2.0[..], "Difference in shared secrets!");
     }
-}
+ }

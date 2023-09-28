@@ -19,8 +19,6 @@ This super-crate contains the following cryptographic algorithms:
 ## Key-Encapsulation Mechanisms
 
 * [``pqcrypto-kyber``](https://crates.io/crates/pqcrypto-kyber) 
-* [``pqcrypto-classicmceliece``](https://crates.io/crates/pqcrypto-classicmceliece) 
-* [``pqcrypto-hqc``](https://crates.io/crates/pqcrypto-hqc) 
 
 ## Signature Schemes
 

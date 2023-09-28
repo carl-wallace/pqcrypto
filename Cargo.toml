@@ -5,8 +5,6 @@ members=[
     "pqcrypto-traits",
     "pqcrypto-internals",
     "pqcrypto-kyber",
-    "pqcrypto-classicmceliece",
-    "pqcrypto-hqc",
     "pqcrypto-dilithium",
     "pqcrypto-falcon",
     "pqcrypto-sphincsplus",
