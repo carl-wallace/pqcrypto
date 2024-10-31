@@ -1,5 +1,30 @@
 # Changelog
 
+## 2024-10-24
+* `pqcrypto-kyber` and `pqcrypto-dilithium` are retired and replaced by `pqcrypto-mlkem` and `pqcrypto-mldsa`, respectively.
+* `pqcrypto-falcon` now separates Falcon into the "compressed" mode and the "padded" variants. The "compressed" variant likely produces shorter signatures than the max size.
+
+## 2024-01-25
+
+* Update Kyber `clean` implementation to avoid potential Kyber side-channel vulnerabilities.
+  Note that the `aarch64` implementation is still vulnerable, but it is waiting for other updates.
+  This library is for experimental purposes, so security vulnerabilties are addressed on a best-effort basis.
+
+## 2023-10-16
+
+* Update Kyber to draft FIPS standard
+    * Remove 90s variants
+* Update Dilithium to draft FIPS standard
+    * Remove 90s variants
+* Update McEliece implementation
+    * Remove Vec variants
+* Bring SPHINCS+ to closer to FIPS variants by removing -robust and Haraka variants
+* Small fix in Falcon
+* Add Falcon NEON implementation
+* Update Rust edition to 2021
+
+## 2023-04-26
+
 * Update Rust dependencies
 * Update SPHINCS+ implementation
 * Update Falcon implementation

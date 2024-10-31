@@ -22,9 +22,19 @@ methods only.
 * ``falcon-512``
   * ``clean``
   * ``avx2`` (if supported)
+  * ``aarch64`` (if supported)
+* ``falcon-padded-512``
+  * ``clean``
+  * ``avx2`` (if supported)
+  * ``aarch64`` (if supported)
 * ``falcon-1024``
   * ``clean``
   * ``avx2`` (if supported)
+  * ``aarch64`` (if supported)
+* ``falcon-padded-1024``
+  * ``clean``
+  * ``avx2`` (if supported)
+  * ``aarch64`` (if supported)
 
 
 ## License

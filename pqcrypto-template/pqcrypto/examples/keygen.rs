@@ -2,7 +2,7 @@ use std::fs::File;
 use std::io::prelude::*;
 
 use pqcrypto::prelude::*;
-use pqcrypto::sign::sphincsharaka128frobust::*;
+use pqcrypto::sign::mldsa44::*;
 
 
 fn main() -> std::io::Result<()> {

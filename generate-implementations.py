@@ -73,6 +73,7 @@ def generate_scheme(name, type, properties):
         name=name,
         type=type,
         insecure=properties.get('insecure', False),
+        supports_context=properties.get('supports_context', False),
         version=properties['version'],
         implementations=properties['implementations'],
     )
@@ -95,6 +96,7 @@ def generate_scheme(name, type, properties):
     render_template(
         target_dir, 'src/ffi.rs', 'scheme/src/ffi.rs.j2',
         insecure=properties.get('insecure', False),
+        supports_context=properties.get('supports_context', False),
         type=type,
         name=name,
         metadatas=metadatas,
@@ -107,6 +109,7 @@ def generate_scheme(name, type, properties):
             "scheme/src/scheme.rs.j2",
             type=type,
             name=name,
+            supports_context=properties.get('supports_context', False),
             insecure=properties.get('insecure', False),
             scheme=scheme,
         )
@@ -116,6 +119,7 @@ def generate_scheme(name, type, properties):
         name=name,
         type=type,
         insecure=properties.get('insecure', False),
+        supports_context=properties.get('supports_context', False),
         notes=properties.get('notes', None),
         schemes=properties['schemes'],
     )
@@ -125,6 +129,7 @@ def generate_scheme(name, type, properties):
         name=name,
         type=type,
         insecure=properties.get('insecure', False),
+        supports_context=properties.get('supports_context', False),
         notes=properties.get('notes', None),
         schemes=properties['schemes'],
     )
@@ -135,6 +140,8 @@ def generate_pqcrypto_crate(implementations):
     target_dir = 'pqcrypto'
     shutil.rmtree(target_dir)
     os.makedirs(os.path.join(target_dir, 'src'))
+    any_insecure = any(kem.get('insecure') for (_name, kem) in implementations['kems'].items())
+    any_insecure |= any(sig.get('insecure') for (_name, sig) in implementations['signs'].items())
 
     render_template(
         target_dir, 'Cargo.toml', "pqcrypto/Cargo.toml.j2",
@@ -152,6 +159,7 @@ def generate_pqcrypto_crate(implementations):
         target_dir, 'README.md', 'pqcrypto/README.md.j2',
         kems=implementations['kems'],
         signs=implementations['signs'],
+        any_insecure=any_insecure,
     )
     shutil.copytree(
         "pqcrypto-template/pqcrypto/examples",
