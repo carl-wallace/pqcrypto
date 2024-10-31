@@ -15,7 +15,7 @@ macro_rules! build_clean {
             .collect();
 
         let target_os = env::var("CARGO_CFG_TARGET_OS").unwrap();
-        if target_os == "wasi" {
+        if target_os == "wasi" || target_os == "unknown" {
             let wasi_sdk_path =
                 &std::env::var("WASI_SDK_DIR").expect("missing environment variable: WASI_SDK_DIR");
             builder.flag(format!("--sysroot={}", wasi_sdk_path).as_str());
@@ -47,7 +47,7 @@ macro_rules! build_avx2 {
             .collect();
 
         let target_os = env::var("CARGO_CFG_TARGET_OS").unwrap();
-        if target_os == "wasi" {
+        if target_os == "wasi" || target_os == "unknown" {
             let wasi_sdk_path =
                 &std::env::var("WASI_SDK_DIR").expect("missing environment variable: WASI_SDK_DIR");
             builder.flag(format!("--sysroot={}", wasi_sdk_path).as_str());
